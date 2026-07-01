@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { X, Trash2, ImageIcon } from 'lucide-react';
+import { X, Trash2, ImageIcon, Loader2 } from 'lucide-react';
 import { uploadImagem } from '../services/uploadService';
 import styles from './ProductForm.module.css';
 
@@ -25,7 +25,9 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
   const [form, setForm] = useState(valoresIniciais);
   const [erroImagem, setErroImagem] = useState('');
   const [uploadando, setUploadando] = useState(false);
+  const [arquivoSelecionado, setArquivoSelecionado] = useState(null);
   const inputFileRef = useRef(null);
+  const blobUrlRef = useRef(null);
 
   useEffect(() => {
     if (produto) {
@@ -47,14 +49,30 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
       });
     }
     setErroImagem('');
+    setArquivoSelecionado(null);
   }, [produto, categorias, valoresIniciais]);
+
+  useEffect(() => {
+    return () => {
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+      }
+    };
+  }, []);
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
     setForm((prev) => ({ ...prev, [name]: type === 'checkbox' ? checked : value }));
+    if (name === 'imagem') {
+      if (blobUrlRef.current) {
+        URL.revokeObjectURL(blobUrlRef.current);
+        blobUrlRef.current = null;
+      }
+      setArquivoSelecionado(null);
+    }
   };
 
-  const handleImagemUpload = async (e) => {
+  const handleImagemUpload = (e) => {
     const arquivo = e.target.files?.[0];
     if (!arquivo) return;
 
@@ -70,18 +88,22 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
       return;
     }
 
-    setUploadando(true);
-    try {
-      const url = await uploadImagem(arquivo);
-      setForm((prev) => ({ ...prev, imagem: url }));
-    } catch {
-      setErroImagem('Erro ao enviar imagem. Tente novamente.');
-    } finally {
-      setUploadando(false);
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
     }
+
+    const urlPreview = URL.createObjectURL(arquivo);
+    blobUrlRef.current = urlPreview;
+    setArquivoSelecionado(arquivo);
+    setForm((prev) => ({ ...prev, imagem: urlPreview }));
   };
 
   const handleRemoverImagem = () => {
+    if (blobUrlRef.current) {
+      URL.revokeObjectURL(blobUrlRef.current);
+      blobUrlRef.current = null;
+    }
+    setArquivoSelecionado(null);
     setForm((prev) => ({ ...prev, imagem: '' }));
     setErroImagem('');
     if (inputFileRef.current) {
@@ -89,12 +111,32 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
     }
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
+
+    let urlImagem = form.imagem;
+
+    if (arquivoSelecionado) {
+      setUploadando(true);
+      try {
+        urlImagem = await uploadImagem(arquivoSelecionado);
+        if (blobUrlRef.current) {
+          URL.revokeObjectURL(blobUrlRef.current);
+          blobUrlRef.current = null;
+        }
+        setArquivoSelecionado(null);
+      } catch {
+        setErroImagem('Erro ao enviar imagem. Tente novamente.');
+        setUploadando(false);
+        return;
+      }
+      setUploadando(false);
+    }
 
     const produtoFinal = {
       ...produto,
       ...form,
+      imagem: urlImagem,
       badge: form.badge.trim() || null,
     };
 
@@ -255,8 +297,15 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
             <button type="button" className={styles.cancel} onClick={onClose}>
               Cancelar
             </button>
-            <button type="submit" className={styles.save}>
-              {produto ? 'Salvar alterações' : 'Cadastrar produto'}
+            <button type="submit" className={styles.save} disabled={uploadando}>
+              {uploadando ? (
+                <>
+                  <Loader2 size={16} className={styles.spinner} />
+                  Enviando...
+                </>
+              ) : (
+                produto ? 'Salvar alterações' : 'Cadastrar produto'
+              )}
             </button>
           </div>
         </form>

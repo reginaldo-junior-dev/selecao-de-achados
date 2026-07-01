@@ -16,9 +16,6 @@ export default function AdminProductGrid({ produtos, onEdit, onDelete }) {
               alt={produto.nome}
               loading="lazy"
               className={styles.imagem}
-              onError={(e) => {
-                e.target.src = '/img/placeholder.png';
-              }}
             />
             {produto.origem && (
               <span
