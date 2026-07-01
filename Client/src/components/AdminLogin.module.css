@@ -1,0 +1,138 @@
+.page {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.25rem;
+  background:
+    radial-gradient(circle at 20% 20%, rgba(240, 165, 0, 0.08) 0%, transparent 40%),
+    var(--cor-fundo);
+}
+
+.card {
+  width: 100%;
+  max-width: 420px;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius-lg);
+  padding: 2.5rem;
+  box-shadow: 0 24px 64px rgba(0, 0, 0, 0.35);
+}
+
+.brand {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.brand h1 {
+  font-family: 'Syne', sans-serif;
+  font-size: 1.75rem;
+  font-weight: 800;
+}
+
+.logoIcon {
+  color: var(--cor-acento);
+  font-size: 1.75rem;
+}
+
+.subtitle {
+  text-align: center;
+  color: var(--cor-texto-soft);
+  font-size: 0.95rem;
+  margin-bottom: 2rem;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.field {
+  display: flex;
+  flex-direction: column;
+  gap: 0.4rem;
+}
+
+.field label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: var(--cor-texto-soft);
+}
+
+.inputWrap {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1rem;
+  color: var(--cor-texto-soft);
+  transition: border-color var(--transition);
+}
+
+.inputWrap:focus-within {
+  border-color: var(--cor-acento);
+}
+
+.inputWrap input {
+  flex: 1;
+  background: transparent;
+  border: none;
+  color: var(--cor-texto);
+  font-size: 0.95rem;
+}
+
+.inputWrap input::placeholder {
+  color: var(--cor-texto-soft);
+}
+
+.inputWrap input:focus {
+  outline: none;
+}
+
+.erro {
+  color: #ff6b6b;
+  font-size: 0.85rem;
+  text-align: center;
+}
+
+.submit {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.4rem;
+  padding: 0.85rem;
+  background: var(--cor-acento);
+  color: var(--cor-fundo);
+  border-radius: var(--radius-md);
+  font-size: 1rem;
+  font-weight: 700;
+  transition: background var(--transition), transform var(--transition);
+}
+
+.submit:hover {
+  background: #ffbb33;
+  transform: translateY(-1px);
+}
+
+.hint {
+  text-align: center;
+  color: var(--cor-texto-soft);
+  font-size: 0.8rem;
+  margin-top: 1.25rem;
+}
+
+.hint strong {
+  color: var(--cor-texto);
+}
+
+@media (max-width: 480px) {
+  .card {
+    padding: 1.75rem;
+  }
+}

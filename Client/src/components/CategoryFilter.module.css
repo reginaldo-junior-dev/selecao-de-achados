@@ -1,0 +1,52 @@
+.wrapper {
+  display: flex;
+  gap: 0.6rem;
+  overflow-x: auto;
+  padding-bottom: 0.75rem;
+  margin-bottom: 2rem;
+  scrollbar-width: thin;
+}
+
+.wrapper::-webkit-scrollbar {
+  height: 6px;
+}
+
+.wrapper::-webkit-scrollbar-thumb {
+  background: var(--cor-borda);
+  border-radius: 3px;
+}
+
+.chip {
+  flex: 0 0 auto;
+  display: flex;
+  align-items: center;
+  gap: 0.4rem;
+  padding: 0.55rem 1rem;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 100px;
+  color: var(--cor-texto-soft);
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+}
+
+.chip:hover {
+  border-color: var(--cor-acento);
+  color: var(--cor-texto);
+}
+
+.ativo {
+  background: var(--cor-acento);
+  border-color: var(--cor-acento);
+  color: var(--cor-fundo);
+}
+
+.ativo:hover {
+  color: var(--cor-fundo);
+}
+
+.icon {
+  font-size: 1rem;
+  line-height: 1;
+}

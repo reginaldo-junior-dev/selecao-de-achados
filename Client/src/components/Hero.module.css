@@ -1,0 +1,92 @@
+.hero {
+  position: relative;
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 8rem 1.25rem 4rem;
+  overflow: hidden;
+}
+
+.gridBg {
+  position: absolute;
+  inset: 0;
+  background:
+    radial-gradient(ellipse 80% 50% at 50% 0%, rgba(240, 165, 0, 0.08), transparent 60%),
+    linear-gradient(rgba(234, 234, 240, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(234, 234, 240, 0.03) 1px, transparent 1px);
+  background-size: 100% 100%, 48px 48px, 48px 48px;
+  pointer-events: none;
+}
+
+.content {
+  position: relative;
+  z-index: 1;
+  max-width: 720px;
+}
+
+.tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.4rem 1rem;
+  border: 1px solid var(--cor-borda);
+  border-radius: 100px;
+  color: var(--cor-acento);
+  font-size: 0.8rem;
+  font-weight: 600;
+  margin-bottom: 1.5rem;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.headline {
+  font-family: 'Syne', sans-serif;
+  font-size: clamp(2rem, 5vw, 3.5rem);
+  font-weight: 800;
+  line-height: 1.1;
+  letter-spacing: -0.03em;
+  margin-bottom: 1rem;
+}
+
+.sub {
+  color: var(--cor-texto-soft);
+  font-size: clamp(1rem, 2vw, 1.25rem);
+  max-width: 560px;
+  margin: 0 auto 1.5rem;
+}
+
+.counter {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 1rem;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 100px;
+  color: var(--cor-texto-soft);
+  font-size: 0.9rem;
+  margin-bottom: 1.75rem;
+}
+
+.counter strong {
+  color: var(--cor-acento);
+}
+
+.cta {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.85rem 1.75rem;
+  background: var(--cor-acento);
+  color: var(--cor-fundo);
+  font-weight: 700;
+  border-radius: 100px;
+  transition: transform var(--transition), box-shadow var(--transition);
+}
+
+.cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 0 24px rgba(240, 165, 0, 0.25);
+}

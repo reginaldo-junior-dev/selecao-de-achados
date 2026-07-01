@@ -1,0 +1,66 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "5433:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -d selecao_de_achados"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  backend:
+    build: ./Server
+    environment:
+      SPRING_PROFILES_ACTIVE: docker
+      DB_HOST: postgres
+      DB_PORT: 5432
+      DB_NAME: ${POSTGRES_DB}
+      DB_USERNAME: ${POSTGRES_USER}
+      DB_PASSWORD: ${POSTGRES_PASSWORD}
+    ports:
+      - "8080:8080"
+    depends_on:
+      postgres:
+        condition: service_healthy
+
+  site:
+    build: ./Client
+    environment:
+      VITE_API_URL: http://localhost:8080
+    ports:
+      - "5173:5173"
+    depends_on:
+      - backend
+
+  importer:
+    image: node:22-alpine
+    working_dir: /app
+    volumes:
+      - ./scripts:/app/scripts:ro
+      - ./Client/src/data:/app/Client/src/data:ro
+    environment:
+      API_URL: http://backend:8080
+      ADMIN_EMAIL: ${ADMIN_EMAIL}
+      ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+    command: >
+      sh -c "
+      apk add --no-cache curl &&
+      echo 'Aguardando backend...' &&
+      until curl -s http://backend:8080/api/categorias > /dev/null; do sleep 3; done &&
+      sleep 5 &&
+      node scripts/importar-produtos.mjs &&
+      echo 'Importacao concluida.'
+      "
+    depends_on:
+      - backend
+    restart: "no"
+
+volumes:
+  postgres_data:
