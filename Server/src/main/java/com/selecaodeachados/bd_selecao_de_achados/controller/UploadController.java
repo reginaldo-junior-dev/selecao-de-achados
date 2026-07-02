@@ -1,29 +1,29 @@
 package com.selecaodeachados.bd_selecao_de_achados.controller;
 
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
-import java.nio.file.StandardCopyOption;
 import java.util.Map;
+import java.util.UUID;
 
 @RestController
 @RequestMapping("/api/upload")
 public class UploadController {
 
-    @Value("${app.upload.dir:uploads}")
-    private String uploadDir;
+    private final RestTemplate restTemplate = new RestTemplate();
 
-    @Value("${app.base-url:http://localhost:8080}")
-    private String baseUrl;
+    @Value("${supabase.url}")
+    private String supabaseUrl;
+
+    @Value("${supabase.service-role-key}")
+    private String serviceRoleKey;
 
     @PostMapping
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
@@ -37,30 +37,25 @@ public class UploadController {
         }
 
         try {
-            Path uploadPath = Paths.get(uploadDir).toAbsolutePath().normalize();
-            Files.createDirectories(uploadPath);
-
             String nomeOriginal = file.getOriginalFilename();
-            if (nomeOriginal == null) nomeOriginal = "imagem.jpg";
-            Path destino = uploadPath.resolve(nomeOriginal);
-            int contador = 1;
-            while (Files.exists(destino)) {
-                String nomeSemExt = nomeOriginal.contains(".")
-                    ? nomeOriginal.substring(0, nomeOriginal.lastIndexOf("."))
-                    : nomeOriginal;
-                String ext = nomeOriginal.contains(".")
-                    ? nomeOriginal.substring(nomeOriginal.lastIndexOf("."))
-                    : "";
-                destino = uploadPath.resolve(nomeSemExt + "_" + contador + ext);
-                contador++;
-            }
+            String ext = nomeOriginal != null && nomeOriginal.contains(".")
+                ? nomeOriginal.substring(nomeOriginal.lastIndexOf("."))
+                : ".jpg";
+            String nomeArquivo = System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 6) + ext;
 
-            Files.copy(file.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
+            String storageUrl = supabaseUrl + "/storage/v1/object/produtos/" + nomeArquivo;
 
-            String url = baseUrl + "/uploads/" + destino.getFileName().toString();
-            return ResponseEntity.ok(Map.of("url", url));
+            HttpHeaders headers = new HttpHeaders();
+            headers.set("Authorization", "Bearer " + serviceRoleKey);
+            headers.setContentType(MediaType.parseMediaType(contentType));
+
+            HttpEntity<byte[]> entity = new HttpEntity<>(file.getBytes(), headers);
+            restTemplate.exchange(storageUrl, HttpMethod.POST, entity, String.class);
+
+            String publicUrl = supabaseUrl + "/storage/v1/object/public/produtos/" + nomeArquivo;
+            return ResponseEntity.ok(Map.of("url", publicUrl));
         } catch (IOException e) {
-            return ResponseEntity.status(500).body(Map.of("erro", "Erro ao salvar arquivo"));
+            return ResponseEntity.status(500).body(Map.of("erro", "Erro ao fazer upload"));
         }
     }
 }

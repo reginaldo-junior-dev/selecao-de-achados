@@ -1,18 +1,14 @@
-import { supabase } from './supabase';
-
-const BUCKET = 'produtos';
+import api from './api';
 
 export async function uploadImagem(file) {
-  const ext = file.name.split('.').pop();
-  const path = `${Date.now()}-${Math.random().toString(36).slice(2, 8)}.${ext}`;
+  const formData = new FormData();
+  formData.append('file', file);
 
-  const { error } = await supabase.storage.from(BUCKET).upload(path, file, {
-    contentType: file.type,
-    upsert: false,
+  const response = await api.post('/api/upload', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data',
+    },
   });
 
-  if (error) throw new Error(error.message);
-
-  const { data } = supabase.storage.from(BUCKET).getPublicUrl(path);
-  return data.publicUrl;
+  return response.data.url;
 }
