@@ -39,6 +39,11 @@ export default function Header({ onSearch }) {
           />
         </div>
 
+        <nav className={styles.nav}>
+          <a href="#sobre" className={styles.navLink}>Sobre</a>
+          <a href="#contato" className={styles.navLink}>Contato</a>
+        </nav>
+
         <div className={styles.actions}>
           <button
             className={styles.iconBtn}
@@ -62,7 +67,6 @@ export default function Header({ onSearch }) {
 
       {menuOpen && (
         <nav className={styles.drawer} onClick={() => setMenuOpen(false)}>
-          <a href="#produtos" className={styles.drawerLink}>Produtos</a>
           <a href="#sobre" className={styles.drawerLink}>Sobre</a>
           <a href="#contato" className={styles.drawerLink}>Contato</a>
         </nav>

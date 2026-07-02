@@ -127,6 +127,44 @@ function PaginaInicial() {
           </div>
         </section>
       </main>
+
+      <section id="sobre" className="sobreSection">
+        <div className="container">
+          <h2>Sobre</h2>
+          <p>
+            O <strong>Seleção de Achados</strong> reúne produtos cuidadosamente selecionados de grandes marketplaces, como Mercado Livre e Shopee, para facilitar sua busca pelas melhores opções em um só lugar.
+          </p>
+          <p>
+            Nosso objetivo é economizar seu tempo, destacando produtos com bom custo-benefício, qualidade e praticidade para o dia a dia. Em vez de navegar por centenas de anúncios, você encontra sugestões organizadas por categorias e pode acessar diretamente a oferta do vendedor.
+          </p>
+          <p>
+            Não realizamos vendas diretamente pelo site. Ao clicar em um produto, você será redirecionado para o marketplace parceiro, onde a compra é finalizada com toda a segurança da plataforma.
+          </p>
+          <p>
+            O Seleção de Achados está sempre sendo atualizado com novos produtos para oferecer uma experiência simples, rápida e confiável na hora de encontrar boas oportunidades.
+          </p>
+        </div>
+      </section>
+
+      <section id="contato" className="contatoSection">
+        <div className="container">
+          <h2>Contato</h2>
+          <p>
+            Caso tenha dúvidas, sugestões ou queira relatar algum problema no funcionamento do <strong>Seleção de Achados</strong>, entre em contato:
+          </p>
+          <p>
+            E-mail: <a href="mailto:selecaodeachados@outlook.com">selecaodeachados@outlook.com</a>
+          </p>
+          <h3>Importante</h3>
+          <p>
+            O Seleção de Achados atua apenas como um site de divulgação de produtos. Não realizamos vendas, processamos pagamentos ou enviamos mercadorias.
+          </p>
+          <p>
+            Todas as compras são feitas diretamente nos marketplaces parceiros, como Mercado Livre e Shopee. Em caso de dúvidas sobre pedidos, entrega, troca, devolução, garantia ou reembolso, entre em contato com o atendimento da plataforma onde a compra foi realizada.
+          </p>
+        </div>
+      </section>
+
       <Footer />
     </>
   );

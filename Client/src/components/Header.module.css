@@ -80,6 +80,26 @@
   outline: none;
 }
 
+.nav {
+  display: none;
+  align-items: center;
+  gap: 0.25rem;
+}
+
+.navLink {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--cor-texto);
+  padding: 0.4rem 0.75rem;
+  border-radius: 6px;
+  transition: background var(--transition), color var(--transition);
+}
+
+.navLink:hover {
+  background: var(--cor-acento-soft);
+  color: var(--cor-acento);
+}
+
 .actions {
   display: flex;
   align-items: center;
@@ -152,6 +172,12 @@
   }
 
   .menuBtn {
+    display: flex;
+  }
+}
+
+@media (min-width: 641px) {
+  .nav {
     display: flex;
   }
 }
