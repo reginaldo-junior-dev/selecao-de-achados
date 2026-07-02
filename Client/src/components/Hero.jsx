@@ -8,7 +8,7 @@ export default function Hero({ total }) {
         <span className={styles.tag}>✦ Seleção de Achados</span>
         <h1 className={styles.headline}>Os melhores achados, reunidos aqui.</h1>
         <p className={styles.sub}>
-          Produtos selecionados com cuidado. Direto no Mercado Livre.
+          Produtos selecionados com cuidado. Direto no Mercado Livre e Shoppe.
         </p>
         <div className={styles.counter}>
           <strong>{total}</strong> produtos selecionados
