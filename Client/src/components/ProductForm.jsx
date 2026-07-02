@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { X, Trash2, ImageIcon, Loader2 } from 'lucide-react';
 import { uploadImagem } from '../services/uploadService';
+import { getImageUrl } from '../utils/getImageUrl';
 import styles from './ProductForm.module.css';
 
 const TIPOS_PERMITIDOS = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
@@ -238,7 +239,7 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
             {form.imagem ? (
               <div className={styles.previewWrap}>
                 <img
-                  src={form.imagem}
+                  src={getImageUrl(form.imagem)}
                   alt="Pré-visualização do produto"
                   className={styles.previewImage}
                 />

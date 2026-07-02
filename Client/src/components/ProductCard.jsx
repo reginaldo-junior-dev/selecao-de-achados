@@ -1,6 +1,7 @@
 import { ArrowRight } from 'lucide-react';
 import styles from './ProductCard.module.css';
 import { registrarClique } from '../services/cliqueService';
+import { getImageUrl } from '../utils/getImageUrl';
 
 export default function ProductCard({ produto }) {
   const badgeClass = produto.badge === 'Em oferta' ? styles.success : styles.amber;
@@ -25,7 +26,7 @@ export default function ProductCard({ produto }) {
       >
         <div className={styles.imageWrapper}>
           <img
-            src={produto.imagem}
+            src={getImageUrl(produto.imagem)}
             alt={produto.nome}
             loading="lazy"
             className={styles.imagem}

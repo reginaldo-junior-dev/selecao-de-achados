@@ -22,6 +22,9 @@ public class UploadController {
     @Value("${app.upload.dir:uploads}")
     private String uploadDir;
 
+    @Value("${app.base-url:http://localhost:8080}")
+    private String baseUrl;
+
     @PostMapping
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -54,7 +57,8 @@ public class UploadController {
 
             Files.copy(file.getInputStream(), destino, StandardCopyOption.REPLACE_EXISTING);
 
-            return ResponseEntity.ok(Map.of("url", "/uploads/" + destino.getFileName().toString()));
+            String url = baseUrl + "/uploads/" + destino.getFileName().toString();
+            return ResponseEntity.ok(Map.of("url", url));
         } catch (IOException e) {
             return ResponseEntity.status(500).body(Map.of("erro", "Erro ao salvar arquivo"));
         }

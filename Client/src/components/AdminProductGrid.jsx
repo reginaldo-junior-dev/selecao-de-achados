@@ -1,5 +1,6 @@
 import { Pencil, Trash2, ExternalLink } from 'lucide-react';
 import styles from './AdminProductGrid.module.css';
+import { getImageUrl } from '../utils/getImageUrl';
 
 export default function AdminProductGrid({ produtos, onEdit, onDelete }) {
   if (!produtos.length) {
@@ -12,7 +13,7 @@ export default function AdminProductGrid({ produtos, onEdit, onDelete }) {
         <article key={produto.id} className={styles.card}>
           <div className={styles.imageWrapper}>
             <img
-              src={produto.imagem}
+              src={getImageUrl(produto.imagem)}
               alt={produto.nome}
               loading="lazy"
               className={styles.imagem}
