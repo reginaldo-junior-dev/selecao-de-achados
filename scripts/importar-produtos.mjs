@@ -46,7 +46,7 @@ async function buscarCategoriasExistentes() {
 }
 
 async function criarCategoria(categoria) {
-  return request('/api/categorias', {
+  return request('/api/admin/categorias', {
     method: 'POST',
     body: JSON.stringify({
       slug: categoria.slug,
@@ -59,7 +59,7 @@ async function criarCategoria(categoria) {
 }
 
 async function criarProduto(produto, categoriaId) {
-  return request('/api/produtos', {
+  return request('/api/admin/produtos', {
     method: 'POST',
     body: JSON.stringify({
       nome: produto.nome,

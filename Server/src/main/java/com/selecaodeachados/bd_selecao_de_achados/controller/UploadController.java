@@ -14,7 +14,7 @@ import java.util.Map;
 import java.util.UUID;
 
 @RestController
-@RequestMapping("/api/upload")
+@RequestMapping("/api/admin/upload")
 public class UploadController {
 
     private final RestTemplate restTemplate = new RestTemplate();

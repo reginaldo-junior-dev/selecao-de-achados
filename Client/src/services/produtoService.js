@@ -22,15 +22,15 @@ export async function buscarProdutoPorId(id) {
 }
 
 export async function criarProduto(produto) {
-  const response = await api.post('/api/produtos', produto);
+  const response = await api.post('/api/admin/produtos', produto);
   return response.data;
 }
 
 export async function atualizarProduto(id, produto) {
-  const response = await api.put(`/api/produtos/${id}`, produto);
+  const response = await api.put(`/api/admin/produtos/${id}`, produto);
   return response.data;
 }
 
 export async function deletarProduto(id) {
-  await api.delete(`/api/produtos/${id}`);
+  await api.delete(`/api/admin/produtos/${id}`);
 }

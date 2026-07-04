@@ -6,15 +6,15 @@ export async function listarCategorias() {
 }
 
 export async function criarCategoria(categoria) {
-  const response = await api.post('/api/categorias', categoria);
+  const response = await api.post('/api/admin/categorias', categoria);
   return response.data;
 }
 
 export async function atualizarCategoria(id, categoria) {
-  const response = await api.put(`/api/categorias/${id}`, categoria);
+  const response = await api.put(`/api/admin/categorias/${id}`, categoria);
   return response.data;
 }
 
 export async function deletarCategoria(id) {
-  await api.delete(`/api/categorias/${id}`);
+  await api.delete(`/api/admin/categorias/${id}`);
 }

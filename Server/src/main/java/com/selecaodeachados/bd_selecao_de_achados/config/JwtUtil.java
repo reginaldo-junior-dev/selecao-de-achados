@@ -14,10 +14,10 @@ import java.time.temporal.ChronoUnit;
 @Component
 public class JwtUtil {
 
-    @Value("${jwt.secret:selecao-de-achados-secret-key}")
+    @Value("${jwt.secret}")
     private String secret;
 
-    @Value("${jwt.issuer:bd-selecao-de-achados}")
+    @Value("${jwt.issuer}")
     private String issuer;
 
     public String gerarToken(String email) {
