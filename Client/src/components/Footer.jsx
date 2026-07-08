@@ -30,11 +30,8 @@ export default function Footer() {
         </div>
 
         <div className={styles.social}>
-          <a href="#" aria-label="Instagram">
+          <a href="https://www.instagram.com/selecao_de_achados_ms/" aria-label="Instagram">
             <InstagramIcon />
-          </a>
-          <a href="#" aria-label="TikTok">
-            <TikTokIcon />
           </a>
         </div>
 
