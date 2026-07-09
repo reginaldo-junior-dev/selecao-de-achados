@@ -108,15 +108,18 @@ export default function AdminPanel({ onLogout }) {
 
   const handleSalvar = async (produto) => {
     try {
-      const categoria = mapaCategoriasPorSlug[produto.categoria];
-      if (!categoria) {
-        setToast({ mensagem: 'Categoria inválida.', tipo: 'error' });
+      const categorias = produto.categorias
+        .map((slug) => mapaCategoriasPorSlug[slug])
+        .filter(Boolean);
+
+      if (categorias.length === 0) {
+        setToast({ mensagem: 'Selecione pelo menos uma categoria.', tipo: 'error' });
         return;
       }
 
       const payload = {
         nome: produto.nome,
-        categoriaId: categoria.id,
+        categoriasIds: categorias.map((c) => c.id),
         chamada: produto.chamada,
         badge: produto.badge?.trim() || null,
         imagem: produto.imagem,

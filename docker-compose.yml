@@ -9,8 +9,9 @@ services:
       - "5433:5432"
     volumes:
       - postgres_data:/var/lib/postgresql/data
+      - ./scripts/seed-categorias.sql:/docker-entrypoint-initdb.d/seed-categorias.sql:ro
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -d selecao_de_achados"]
+      test: ["CMD-SHELL", "pg_isready -U ${POSTGRES_USER} -d ${POSTGRES_DB}"]
       interval: 5s
       timeout: 5s
       retries: 10
@@ -27,6 +28,8 @@ services:
       JWT_SECRET: ${JWT_SECRET}
       ADMIN_EMAIL: ${ADMIN_EMAIL}
       ADMIN_PASSWORD: ${ADMIN_PASSWORD}
+      SUPABASE_URL: ${SUPABASE_URL}
+      SUPABASE_SERVICE_ROLE_KEY: ${SUPABASE_SERVICE_ROLE_KEY}
     ports:
       - "8080:8080"
     depends_on:

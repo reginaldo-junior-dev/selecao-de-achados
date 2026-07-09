@@ -1,4 +1,4 @@
-import { produtos, categorias } from '../selecao-de-achados/src/data/produtos.js';
+import { produtos, categorias } from '../Client/src/data/produtos.js';
 
 const API_URL = process.env.API_URL || 'http://localhost:8080';
 const ADMIN_EMAIL = process.env.ADMIN_EMAIL;
@@ -58,12 +58,12 @@ async function criarCategoria(categoria) {
   });
 }
 
-async function criarProduto(produto, categoriaId) {
+async function criarProduto(produto, categoriasIds) {
   return request('/api/admin/produtos', {
     method: 'POST',
     body: JSON.stringify({
       nome: produto.nome,
-      categoriaId,
+      categoriasIds,
       chamada: produto.chamada,
       badge: produto.badge,
       imagem: produto.imagem,
@@ -107,7 +107,7 @@ async function main() {
     }
 
     try {
-      await criarProduto(p, categoriaId);
+      await criarProduto(p, [categoriaId]);
       importados++;
       console.log(`✓ ${p.nome}`);
     } catch (e) {

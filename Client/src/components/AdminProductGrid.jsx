@@ -33,7 +33,9 @@ export default function AdminProductGrid({ produtos, onEdit, onDelete }) {
           <div className={styles.body}>
             <h3 className={styles.nome}>{produto.nome}</h3>
             <p className={styles.chamada}>{produto.chamada}</p>
-            <span className={styles.categoria}>{produto.categoriaNome}</span>
+            <span className={styles.categoria}>
+              {produto.categorias?.map((c) => c.nome).join(', ')}
+            </span>
           </div>
 
           <div className={styles.actions}>
