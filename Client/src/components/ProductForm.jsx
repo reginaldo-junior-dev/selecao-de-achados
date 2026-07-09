@@ -11,7 +11,7 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
   const valoresIniciais = useMemo(
     () => ({
       nome: '',
-      categoria: categorias[0]?.slug || '',
+      categorias: [],
       chamada: '',
       badge: '',
       imagem: '',
@@ -20,7 +20,7 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
       ativo: true,
       ordem: 0,
     }),
-    [categorias]
+    []
   );
 
   const [form, setForm] = useState(valoresIniciais);
@@ -32,9 +32,10 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
 
   useEffect(() => {
     if (produto) {
+      const slugs = produto.categorias?.map((c) => c.slug) || [];
       setForm({
         nome: produto.nome || '',
-        categoria: produto.categoriaSlug || produto.categoria || '',
+        categorias: slugs,
         chamada: produto.chamada || '',
         badge: produto.badge || '',
         imagem: produto.imagem || '',
@@ -44,10 +45,7 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
         ordem: produto.ordem ?? 0,
       });
     } else {
-      setForm({
-        ...valoresIniciais,
-        categoria: categorias[0]?.slug || '',
-      });
+      setForm({ ...valoresIniciais });
     }
     setErroImagem('');
     setArquivoSelecionado(null);
@@ -71,6 +69,15 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
       }
       setArquivoSelecionado(null);
     }
+  };
+
+  const handleCategoriaToggle = (slug) => {
+    setForm((prev) => ({
+      ...prev,
+      categorias: prev.categorias.includes(slug)
+        ? prev.categorias.filter((s) => s !== slug)
+        : [...prev.categorias, slug],
+    }));
   };
 
   const handleImagemUpload = (e) => {
@@ -169,20 +176,20 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
           </div>
 
           <div className={styles.field}>
-            <label htmlFor="categoria">Categoria *</label>
-            <select
-              id="categoria"
-              name="categoria"
-              value={form.categoria}
-              onChange={handleChange}
-              required
-            >
+            <label>Categorias *</label>
+            <div className={styles.checkboxGroup}>
               {categorias.map((cat) => (
-                <option key={cat.slug} value={cat.slug}>
-                  {cat.nome}
-                </option>
+                <label key={cat.slug} className={styles.checkboxLabel}>
+                  <input
+                    type="checkbox"
+                    checked={form.categorias.includes(cat.slug)}
+                    onChange={() => handleCategoriaToggle(cat.slug)}
+                  />
+                  <span>{cat.icone}</span>
+                  <span>{cat.nome}</span>
+                </label>
               ))}
-            </select>
+            </div>
           </div>
 
           <div className={styles.field}>

@@ -240,6 +240,40 @@
   margin-right: 0.4rem;
 }
 
+.checkboxGroup {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.5rem;
+}
+
+.checkboxLabel {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.5rem 0.75rem;
+  background: var(--cor-fundo);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius-md);
+  cursor: pointer;
+  font-size: 0.9rem;
+  font-weight: 500;
+  transition: border-color var(--transition), background var(--transition);
+  user-select: none;
+}
+
+.checkboxLabel:hover {
+  border-color: var(--cor-acento);
+}
+
+.checkboxLabel input {
+  accent-color: var(--cor-acento);
+}
+
+.checkboxLabel:has(input:checked) {
+  border-color: var(--cor-acento);
+  background: var(--cor-acento-soft);
+}
+
 @media (max-width: 480px) {
   .actions {
     flex-direction: column;

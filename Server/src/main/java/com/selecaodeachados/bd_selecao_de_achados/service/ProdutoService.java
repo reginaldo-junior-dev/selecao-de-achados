@@ -13,6 +13,9 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.HashSet;
+import java.util.Set;
+
 @Service
 @RequiredArgsConstructor
 public class ProdutoService {
@@ -28,7 +31,7 @@ public class ProdutoService {
 
     @Transactional(readOnly = true)
     public Page<ProdutoResponseDTO> listarPorCategoria(String slugCategoria, Pageable pageable) {
-        return produtoRepository.findByAtivoTrueAndCategoriaSlugOrderByOrdemAsc(slugCategoria, pageable)
+        return produtoRepository.findByAtivoTrueAndCategoriasSlug(slugCategoria, pageable)
                 .map(this::toResponseDTO);
     }
 
@@ -46,7 +49,7 @@ public class ProdutoService {
         }
 
         if (slugCategoria != null && !slugCategoria.isBlank()) {
-            return produtoRepository.findByCategoriaSlugOrderByOrdemAsc(slugCategoria, pageable)
+            return produtoRepository.findByCategoriasSlug(slugCategoria, pageable)
                     .map(this::toResponseDTO);
         }
 
@@ -63,12 +66,14 @@ public class ProdutoService {
 
     @Transactional
     public ProdutoResponseDTO criar(ProdutoRequestDTO dto) {
-        Categoria categoria = categoriaRepository.findById(dto.categoriaId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada: " + dto.categoriaId()));
+        Set<Categoria> categorias = new HashSet<>(categoriaRepository.findAllById(dto.categoriasIds()));
+        if (categorias.size() != dto.categoriasIds().size()) {
+            throw new EntityNotFoundException("Uma ou mais categorias não foram encontradas");
+        }
 
         Produto produto = Produto.builder()
                 .nome(dto.nome())
-                .categoria(categoria)
+                .categorias(categorias)
                 .chamada(dto.chamada())
                 .badge(dto.badge())
                 .imagem(dto.imagem())
@@ -87,11 +92,13 @@ public class ProdutoService {
         Produto produto = produtoRepository.findById(id)
                 .orElseThrow(() -> new EntityNotFoundException("Produto não encontrado: " + id));
 
-        Categoria categoria = categoriaRepository.findById(dto.categoriaId())
-                .orElseThrow(() -> new EntityNotFoundException("Categoria não encontrada: " + dto.categoriaId()));
+        Set<Categoria> categorias = new HashSet<>(categoriaRepository.findAllById(dto.categoriasIds()));
+        if (categorias.size() != dto.categoriasIds().size()) {
+            throw new EntityNotFoundException("Uma ou mais categorias não foram encontradas");
+        }
 
         produto.setNome(dto.nome());
-        produto.setCategoria(categoria);
+        produto.setCategorias(categorias);
         produto.setChamada(dto.chamada());
         produto.setBadge(dto.badge());
         produto.setImagem(dto.imagem());
@@ -115,9 +122,9 @@ public class ProdutoService {
         return new ProdutoResponseDTO(
                 produto.getId(),
                 produto.getNome(),
-                produto.getCategoria().getId(),
-                produto.getCategoria().getNome(),
-                produto.getCategoria().getSlug(),
+                produto.getCategorias().stream()
+                        .map(c -> new ProdutoResponseDTO.CategoriaInfo(c.getId(), c.getNome(), c.getSlug()))
+                        .toList(),
                 produto.getChamada(),
                 produto.getBadge(),
                 produto.getImagem(),
