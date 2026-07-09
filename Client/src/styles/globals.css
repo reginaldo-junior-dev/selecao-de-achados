@@ -82,13 +82,15 @@ img {
 }
 
 .sobreSection,
-.contatoSection {
+.contatoSection,
+.privacidadeSection {
   padding: 5rem 0;
   border-top: 1px solid var(--cor-borda);
 }
 
 .sobreSection h2,
-.contatoSection h2 {
+.contatoSection h2,
+.privacidadeSection h2 {
   font-family: 'Syne', sans-serif;
   font-size: 2rem;
   font-weight: 700;
@@ -105,7 +107,8 @@ img {
 }
 
 .sobreSection p,
-.contatoSection p {
+.contatoSection p,
+.privacidadeSection p {
   color: var(--cor-texto-soft);
   line-height: 1.8;
   margin-bottom: 1rem;
@@ -128,12 +131,14 @@ img {
   }
 
   .sobreSection,
-  .contatoSection {
+  .contatoSection,
+  .privacidadeSection {
     padding: 3rem 0;
   }
 
   .sobreSection h2,
-  .contatoSection h2 {
+  .contatoSection h2,
+  .privacidadeSection h2 {
     font-size: 1.5rem;
   }
 }

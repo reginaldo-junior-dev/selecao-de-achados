@@ -41,6 +41,7 @@ export default function Header({ onSearch }) {
 
         <nav className={styles.nav}>
           <a href="#sobre" className={styles.navLink}>Sobre</a>
+          <a href="#privacidade" className={styles.navLink}>Política de Privacidade</a>
           <a href="#contato" className={styles.navLink}>Contato</a>
         </nav>
 
@@ -68,6 +69,7 @@ export default function Header({ onSearch }) {
       {menuOpen && (
         <nav className={styles.drawer} onClick={() => setMenuOpen(false)}>
           <a href="#sobre" className={styles.drawerLink}>Sobre</a>
+          <a href="#privacidade" className={styles.drawerLink}>Política de Privacidade</a>
           <a href="#contato" className={styles.drawerLink}>Contato</a>
         </nav>
       )}

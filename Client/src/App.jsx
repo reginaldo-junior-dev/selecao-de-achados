@@ -146,6 +146,30 @@ function PaginaInicial() {
         </div>
       </section>
 
+      <section id="privacidade" className="privacidadeSection">
+        <div className="container">
+          <h2>Política de Privacidade</h2>
+          <p>
+            O site <strong>Seleção de Achados</strong> não exige cadastro ou login de usuários para navegação.
+          </p>
+          <p>
+            Durante a utilização do site, podem ser coletadas informações automáticas de navegação, como endereço IP, tipo de navegador, dispositivo utilizado e páginas acessadas, com o objetivo de melhorar a experiência do usuário e analisar o funcionamento do site.
+          </p>
+          <p>
+            Este site pode utilizar cookies e serviços de terceiros, incluindo o Google AdSense, para exibição de anúncios e análise de tráfego.
+          </p>
+          <p>
+            Além disso, o site participa de programas de afiliados, como Mercado Livre e Shopee. Alguns links podem gerar comissão ao administrador caso uma compra seja realizada através deles, sem custo adicional para o usuário.
+          </p>
+          <p>
+            Em caso de dúvidas, entre em contato pelo e-mail informado na página de contato.
+          </p>
+          <p>
+            <em>Última atualização: 09 de julho de 2026.</em>
+          </p>
+        </div>
+      </section>
+
       <section id="contato" className="contatoSection">
         <div className="container">
           <h2>Contato</h2>
