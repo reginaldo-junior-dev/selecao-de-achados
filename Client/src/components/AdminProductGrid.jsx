@@ -1,6 +1,20 @@
+import { useState } from 'react';
 import { Pencil, Trash2, ExternalLink } from 'lucide-react';
 import styles from './AdminProductGrid.module.css';
 import { getImageUrl } from '../utils/getImageUrl';
+
+function AdminImage({ src, alt }) {
+  const [loaded, setLoaded] = useState(false);
+  return (
+    <img
+      src={src}
+      alt={alt}
+      loading="lazy"
+      onLoad={() => setLoaded(true)}
+      className={`${styles.imagem} ${loaded ? styles.loaded : ''}`}
+    />
+  );
+}
 
 export default function AdminProductGrid({ produtos, onEdit, onDelete }) {
   if (!produtos.length) {
@@ -12,12 +26,7 @@ export default function AdminProductGrid({ produtos, onEdit, onDelete }) {
       {produtos.map((produto) => (
         <article key={produto.id} className={styles.card}>
           <div className={styles.imageWrapper}>
-            <img
-              src={getImageUrl(produto.imagem)}
-              alt={produto.nome}
-              loading="lazy"
-              className={styles.imagem}
-            />
+            <AdminImage src={getImageUrl(produto.imagem)} alt={produto.nome} />
             {produto.origem && (
               <span
                 className={`${styles.badge} ${produto.origem === 'shopee' ? styles.shopee : styles.ml}`}

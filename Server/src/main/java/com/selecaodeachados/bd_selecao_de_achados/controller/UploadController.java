@@ -1,5 +1,6 @@
 package com.selecaodeachados.bd_selecao_de_achados.controller;
 
+import net.coobird.thumbnailator.Thumbnails;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.*;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -9,6 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.client.RestTemplate;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Map;
 import java.util.UUID;
@@ -43,19 +45,28 @@ public class UploadController {
                 : ".jpg";
             String nomeArquivo = System.currentTimeMillis() + "-" + UUID.randomUUID().toString().substring(0, 6) + ext;
 
+            ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
+            Thumbnails.of(file.getInputStream())
+                .size(1200, 1200)
+                .outputQuality(0.80)
+                .toOutputStream(outputStream);
+
+            byte[] compressedBytes = outputStream.toByteArray();
+
             String storageUrl = supabaseUrl + "/storage/v1/object/produtos/" + nomeArquivo;
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + serviceRoleKey);
             headers.setContentType(MediaType.parseMediaType(contentType));
+            headers.setCacheControl(CacheControl.maxAge(31536000, java.util.concurrent.TimeUnit.SECONDS).cachePublic());
 
-            HttpEntity<byte[]> entity = new HttpEntity<>(file.getBytes(), headers);
+            HttpEntity<byte[]> entity = new HttpEntity<>(compressedBytes, headers);
             restTemplate.exchange(storageUrl, HttpMethod.POST, entity, String.class);
 
             String publicUrl = supabaseUrl + "/storage/v1/object/public/produtos/" + nomeArquivo;
             return ResponseEntity.ok(Map.of("url", publicUrl));
         } catch (IOException e) {
-            return ResponseEntity.status(500).body(Map.of("erro", "Erro ao fazer upload"));
+            return ResponseEntity.status(500).body(Map.of("erro", "Erro ao processar imagem"));
         }
     }
 }

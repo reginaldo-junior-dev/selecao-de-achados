@@ -29,10 +29,15 @@
   width: 100%;
   height: 100%;
   object-fit: cover;
-  transition: transform var(--transition);
+  opacity: 0;
+  transition: opacity 0.3s ease, transform var(--transition);
 }
 
-.card:hover .imagem {
+.imagem.loaded {
+  opacity: 1;
+}
+
+.card:hover .imagem.loaded {
   transform: scale(1.04);
 }
 
