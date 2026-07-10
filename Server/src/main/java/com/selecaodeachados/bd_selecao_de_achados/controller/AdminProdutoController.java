@@ -13,8 +13,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 @RestController
@@ -57,10 +55,6 @@ public class AdminProdutoController {
 
     @PostMapping("/migrar-imagens")
     public ResponseEntity<Map<String, Object>> migrarImagens() {
-        List<Map<String, Object>> resultados = imageMigrationService.migrarTodasImagens();
-        Map<String, Object> response = new HashMap<>();
-        response.put("total", resultados.size());
-        response.put("resultados", resultados);
-        return ResponseEntity.ok(response);
+        return ResponseEntity.ok(imageMigrationService.migrarTodasImagens());
     }
 }
