@@ -2,6 +2,7 @@ package com.selecaodeachados.bd_selecao_de_achados.controller;
 
 import com.selecaodeachados.bd_selecao_de_achados.dto.ProdutoRequestDTO;
 import com.selecaodeachados.bd_selecao_de_achados.dto.ProdutoResponseDTO;
+import com.selecaodeachados.bd_selecao_de_achados.service.ImageMigrationService;
 import com.selecaodeachados.bd_selecao_de_achados.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -12,12 +13,16 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Map;
+
 @RestController
 @RequestMapping("/api/admin/produtos")
 @RequiredArgsConstructor
 public class AdminProdutoController {
 
     private final ProdutoService produtoService;
+    private final ImageMigrationService imageMigrationService;
 
     @GetMapping
     public ResponseEntity<Page<ProdutoResponseDTO>> listar(
@@ -42,5 +47,11 @@ public class AdminProdutoController {
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         produtoService.deletar(id);
         return ResponseEntity.noContent().build();
+    }
+
+    @PostMapping("/migrar-imagens")
+    public ResponseEntity<List<Map<String, Object>>> migrarImagens() {
+        List<Map<String, Object>> resultados = imageMigrationService.migrarTodasImagens();
+        return ResponseEntity.ok(resultados);
     }
 }

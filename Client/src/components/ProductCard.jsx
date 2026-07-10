@@ -1,9 +1,11 @@
+import { useState } from 'react';
 import { ArrowRight } from 'lucide-react';
 import styles from './ProductCard.module.css';
 import { registrarClique } from '../services/cliqueService';
 import { getImageUrl } from '../utils/getImageUrl';
 
 export default function ProductCard({ produto }) {
+  const [imgLoaded, setImgLoaded] = useState(false);
   const badgeClass = produto.badge === 'Em oferta' ? styles.success : styles.amber;
 
   const handleClick = async () => {
@@ -29,7 +31,8 @@ export default function ProductCard({ produto }) {
             src={getImageUrl(produto.imagem)}
             alt={produto.nome}
             loading="lazy"
-            className={styles.imagem}
+            onLoad={() => setImgLoaded(true)}
+            className={`${styles.imagem} ${imgLoaded ? styles.loaded : ''}`}
           />
           {produto.origem && (
             <span
