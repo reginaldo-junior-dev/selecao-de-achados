@@ -23,7 +23,6 @@ import java.util.Map;
 public class ImageMigrationService {
 
     private final ProdutoRepository produtoRepository;
-    private final RestTemplate restTemplate = new RestTemplate();
 
     @Value("${supabase.url}")
     private String supabaseUrl;
@@ -42,6 +41,8 @@ public class ImageMigrationService {
         log.info("Migrando {} imagens...", urls.size());
 
         List<Map<String, Object>> resultados = new ArrayList<>();
+
+        RestTemplate restTemplate = new RestTemplate();
 
         for (String publicUrl : urls) {
             try {

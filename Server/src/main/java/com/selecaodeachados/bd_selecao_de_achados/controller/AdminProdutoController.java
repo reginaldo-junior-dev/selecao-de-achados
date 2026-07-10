@@ -50,6 +50,11 @@ public class AdminProdutoController {
         return ResponseEntity.noContent().build();
     }
 
+    @GetMapping("/ping")
+    public ResponseEntity<Map<String, String>> ping() {
+        return ResponseEntity.ok(Map.of("status", "ok"));
+    }
+
     @PostMapping("/migrar-imagens")
     public ResponseEntity<Map<String, Object>> migrarImagens() {
         List<Map<String, Object>> resultados = imageMigrationService.migrarTodasImagens();
