@@ -2,7 +2,6 @@ package com.selecaodeachados.bd_selecao_de_achados.controller;
 
 import com.selecaodeachados.bd_selecao_de_achados.dto.ProdutoRequestDTO;
 import com.selecaodeachados.bd_selecao_de_achados.dto.ProdutoResponseDTO;
-import com.selecaodeachados.bd_selecao_de_achados.service.ImageMigrationService;
 import com.selecaodeachados.bd_selecao_de_achados.service.ProdutoService;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -21,7 +20,6 @@ import java.util.Map;
 public class AdminProdutoController {
 
     private final ProdutoService produtoService;
-    private final ImageMigrationService imageMigrationService;
 
     @GetMapping
     public ResponseEntity<Page<ProdutoResponseDTO>> listar(
@@ -53,8 +51,4 @@ public class AdminProdutoController {
         return ResponseEntity.ok(Map.of("status", "ok"));
     }
 
-    @PostMapping("/migrar-imagens")
-    public ResponseEntity<Map<String, Object>> migrarImagens() {
-        return ResponseEntity.ok(imageMigrationService.migrarTodasImagens());
-    }
 }
