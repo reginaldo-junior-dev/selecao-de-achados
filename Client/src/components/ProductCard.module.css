@@ -3,6 +3,7 @@
   border: 1px solid var(--cor-borda);
   border-radius: var(--radius-md);
   overflow: hidden;
+  height: 100%;
   transition: transform var(--transition), box-shadow var(--transition), border-color var(--transition);
 }
 
