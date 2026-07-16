@@ -11,7 +11,7 @@ export default function CategoryFilter({ categorias, ativa, onChange }) {
           className={`${styles.chip} ${ativa === cat.slug ? styles.ativo : ''}`}
           onClick={() => onChange(cat.slug)}
         >
-          <span className={styles.icon}>{cat.icone}</span>
+          {cat.icone && <span className={styles.icon}>{cat.icone}</span>}
           <span className={styles.label}>{cat.nome}</span>
         </button>
       ))}

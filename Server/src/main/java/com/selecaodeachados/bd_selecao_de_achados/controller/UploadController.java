@@ -27,6 +27,9 @@ public class UploadController {
     @Value("${supabase.service-role-key}")
     private String serviceRoleKey;
 
+    @Value("${supabase.bucket-name:produtos}")
+    private String bucketName;
+
     @PostMapping
     public ResponseEntity<?> upload(@RequestParam("file") MultipartFile file) {
         if (file.isEmpty()) {
@@ -53,7 +56,7 @@ public class UploadController {
 
             byte[] compressedBytes = outputStream.toByteArray();
 
-            String storageUrl = supabaseUrl + "/storage/v1/object/produtos/" + nomeArquivo;
+            String storageUrl = supabaseUrl + "/storage/v1/object/" + bucketName + "/" + nomeArquivo;
 
             HttpHeaders headers = new HttpHeaders();
             headers.set("Authorization", "Bearer " + serviceRoleKey);
@@ -63,7 +66,7 @@ public class UploadController {
             HttpEntity<byte[]> entity = new HttpEntity<>(compressedBytes, headers);
             restTemplate.exchange(storageUrl, HttpMethod.POST, entity, String.class);
 
-            String publicUrl = supabaseUrl + "/storage/v1/object/public/produtos/" + nomeArquivo;
+            String publicUrl = supabaseUrl + "/storage/v1/object/public/" + bucketName + "/" + nomeArquivo;
             return ResponseEntity.ok(Map.of("url", publicUrl));
         } catch (IOException e) {
             return ResponseEntity.status(500).body(Map.of("erro", "Erro ao processar imagem"));
