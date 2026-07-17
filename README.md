@@ -2,6 +2,18 @@
 
 Plataforma de curadoria de produtos com achados da internet.
 
+**Deploy:** [https://www.selecaodeachados.com](https://www.selecaodeachados.com)
+
+## Tecnologias utilizadas
+
+| React | Java | Spring Boot | PostgreSQL | Docker |
+|-------|------|-------------|------------|--------|
+
+## Serviços utilizados
+
+| Vercel | Render | Supabase | Namecheap |
+|--------|--------|----------|-----------|
+
 ## Pré-requisitos
 
 Você precisa ter instalado na sua máquina:
