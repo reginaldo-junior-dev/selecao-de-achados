@@ -1,18 +1,44 @@
 # Seleção de Achados
 
-Plataforma de curadoria de produtos com achados da internet.
+Aplicação full stack desenvolvida para gerenciar e organizar produtos afiliados, centralizando categorias, imagens e links de divulgação em um catálogo próprio de ofertas e achados da internet.
+
+![Home](docs/home.png)
 
 **Deploy:** [https://www.selecaodeachados.com](https://www.selecaodeachados.com)
 
 ## Tecnologias utilizadas
 
-| React | Java | Spring Boot | PostgreSQL | Docker |
-|-------|------|-------------|------------|--------|
+![React](https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react)
+![Java](https://img.shields.io/badge/Java-ED8B00?style=for-the-badge&logo=openjdk)
+![Spring Boot](https://img.shields.io/badge/Spring_Boot-6DB33F?style=for-the-badge&logo=springboot)
+![PostgreSQL](https://img.shields.io/badge/PostgreSQL-316192?style=for-the-badge&logo=postgresql)
+![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker)
 
 ## Serviços utilizados
 
-| Vercel | Render | Supabase | Namecheap |
-|--------|--------|----------|-----------|
+![Vercel](https://img.shields.io/badge/Vercel-000000?style=for-the-badge&logo=vercel)
+![Render](https://img.shields.io/badge/Render-46E3B7?style=for-the-badge&logo=render)
+![Supabase](https://img.shields.io/badge/Supabase-3ECF8E?style=for-the-badge&logo=supabase)
+![Namecheap](https://img.shields.io/badge/Namecheap-373737?style=for-the-badge&logo=namecheap)
+
+## Sobre o projeto
+
+O Seleção de Achados foi desenvolvido para centralizar e gerenciar os produtos aos quais sou afiliado em plataformas como Mercado Livre e Shopee.
+
+A aplicação permite cadastrar produtos, organizar categorias, gerenciar imagens e manter um catálogo próprio para divulgação de ofertas e achados da internet.
+
+O projeto surgiu da necessidade de ter controle sobre os produtos divulgados, evitando depender apenas das plataformas de afiliados para organização e gerenciamento do catálogo.
+
+## Funcionalidades
+
+- Curadoria manual de produtos da internet
+- Categorias organizadas para facilitar a navegação
+- Painel administrativo para gerenciar produtos e categorias
+- Upload de imagens com Supabase Storage
+- Busca e filtros para encontrar produtos
+- Interface responsiva e moderna
+
+![Produtos](docs/produtos.png)
 
 ## Pré-requisitos
 
@@ -32,7 +58,7 @@ Não precisa instalar Java, Node.js, PostgreSQL ou qualquer outra coisa. O Docke
 Abra o terminal e digite:
 
 ```bash
-git clone <url-do-repositorio>
+git clone https://github.com/reginaldo-junior-dev/selecao-de-achados
 cd SelecaoDeAchados
 ```
 
