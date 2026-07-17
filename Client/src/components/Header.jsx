@@ -24,7 +24,7 @@ export default function Header({ onSearch }) {
     <header className={`${styles.header} ${compact ? styles.compact : ''}`}>
       <div className={styles.inner}>
         <a href="/" className={styles.logo}>
-          <span className={styles.logoIcon}>✦</span>
+          <span className={styles.logoIcon}>💎</span>
           Seleção de Achados
         </a>
 
