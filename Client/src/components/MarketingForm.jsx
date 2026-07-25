@@ -1,9 +1,10 @@
 import { useState, useEffect, useCallback } from 'react';
-import { X, Loader2 } from 'lucide-react';
+import { X, Loader2, Trash2 } from 'lucide-react';
 import {
   listarTextosMarketing,
   criarTextoMarketing,
   atualizarTextoMarketing,
+  deletarTextoMarketing,
 } from '../services/marketingService';
 import styles from './MarketingForm.module.css';
 
@@ -36,6 +37,27 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
     carregarTextos();
   }, [carregarTextos]);
 
+  const handleLimpar = async (redeSocial) => {
+    const existente = textosExistentes[redeSocial];
+    if (!existente) return;
+
+    try {
+      await deletarTextoMarketing(existente.id);
+      delete textosExistentes[redeSocial];
+      setTextosExistentes({ ...textosExistentes });
+
+      if (redeSocial === 'INSTAGRAM') {
+        setLegenda('');
+      } else {
+        setDescricao('');
+      }
+
+      onToast({ mensagem: 'Texto removido com sucesso.', tipo: 'success' });
+    } catch {
+      onToast({ mensagem: 'Erro ao remover texto.', tipo: 'error' });
+    }
+  };
+
   const handleSalvar = async (e) => {
     e.preventDefault();
     setSalvando(true);
@@ -57,14 +79,22 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
 
       const existenteInstagram = textosExistentes.INSTAGRAM;
       if (existenteInstagram) {
-        promises.push(atualizarTextoMarketing(existenteInstagram.id, dadosInstagram));
+        if (legenda.trim()) {
+          promises.push(atualizarTextoMarketing(existenteInstagram.id, dadosInstagram));
+        } else {
+          promises.push(deletarTextoMarketing(existenteInstagram.id));
+        }
       } else if (legenda.trim()) {
         promises.push(criarTextoMarketing(dadosInstagram));
       }
 
       const existenteYouTube = textosExistentes.YOUTUBE;
       if (existenteYouTube) {
-        promises.push(atualizarTextoMarketing(existenteYouTube.id, dadosYouTube));
+        if (descricao.trim()) {
+          promises.push(atualizarTextoMarketing(existenteYouTube.id, dadosYouTube));
+        } else {
+          promises.push(deletarTextoMarketing(existenteYouTube.id));
+        }
       } else if (descricao.trim()) {
         promises.push(criarTextoMarketing(dadosYouTube));
       }
@@ -99,9 +129,22 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
         ) : (
           <form className={styles.form} onSubmit={handleSalvar}>
             <div className={styles.field}>
-              <label htmlFor="legenda">
-                <span className={styles.platform}>Instagram</span> Legenda
-              </label>
+              <div className={styles.fieldHeader}>
+                <label htmlFor="legenda">
+                  <span className={styles.platform}>Instagram</span> Legenda
+                </label>
+                {textosExistentes.INSTAGRAM && (
+                  <button
+                    type="button"
+                    className={styles.clearBtn}
+                    onClick={() => handleLimpar('INSTAGRAM')}
+                    title="Remover texto do Instagram"
+                  >
+                    <Trash2 size={14} />
+                    Limpar
+                  </button>
+                )}
+              </div>
               <textarea
                 id="legenda"
                 value={legenda}
@@ -112,9 +155,22 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
             </div>
 
             <div className={styles.field}>
-              <label htmlFor="descricao">
-                <span className={styles.platform}>YouTube</span> Descrição
-              </label>
+              <div className={styles.fieldHeader}>
+                <label htmlFor="descricao">
+                  <span className={styles.platform}>YouTube</span> Descrição
+                </label>
+                {textosExistentes.YOUTUBE && (
+                  <button
+                    type="button"
+                    className={styles.clearBtn}
+                    onClick={() => handleLimpar('YOUTUBE')}
+                    title="Remover texto do YouTube"
+                  >
+                    <Trash2 size={14} />
+                    Limpar
+                  </button>
+                )}
+              </div>
               <textarea
                 id="descricao"
                 value={descricao}

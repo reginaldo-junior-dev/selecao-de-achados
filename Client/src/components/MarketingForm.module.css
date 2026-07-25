@@ -81,6 +81,35 @@
   color: var(--cor-texto-soft);
 }
 
+.fieldHeader {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.clearBtn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.3rem;
+  padding: 0.25rem 0.5rem;
+  background: transparent;
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--radius-sm);
+  color: var(--cor-texto-soft);
+  font-size: 0.75rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background var(--transition), color var(--transition), border-color var(--transition);
+  white-space: nowrap;
+}
+
+.clearBtn:hover {
+  background: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border-color: rgba(239, 68, 68, 0.3);
+}
+
 .platform {
   display: inline-block;
   padding: 0.15rem 0.5rem;
