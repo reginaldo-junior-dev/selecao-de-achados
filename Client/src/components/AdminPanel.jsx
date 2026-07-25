@@ -3,6 +3,7 @@ import { Plus, Search } from 'lucide-react';
 import AdminHeader from './AdminHeader';
 import AdminProductGrid from './AdminProductGrid';
 import ProductForm from './ProductForm';
+import MarketingForm from './MarketingForm';
 import Pagination from './Pagination';
 import Footer from './Footer';
 import Toast from './Toast';
@@ -31,6 +32,9 @@ export default function AdminPanel({ onLogout }) {
   const [carregando, setCarregando] = useState(true);
   const [toast, setToast] = useState(null);
   const [confirmacao, setConfirmacao] = useState(null);
+  const [marketingAberto, setMarketingAberto] = useState(false);
+  const [marketingProdutoId, setMarketingProdutoId] = useState(null);
+  const [marketingProdutoNome, setMarketingProdutoNome] = useState('');
 
   const categoriasDisponiveis = useMemo(
     () => categorias.filter((c) => c.slug !== 'todos'),
@@ -104,6 +108,20 @@ export default function AdminPanel({ onLogout }) {
   const handleFecharForm = () => {
     setFormAberto(false);
     setProdutoEditando(null);
+  };
+
+  const handleAbrirMarketing = (produto) => {
+    setFormAberto(false);
+    setProdutoEditando(null);
+    setMarketingProdutoId(produto.id);
+    setMarketingProdutoNome(produto.nome);
+    setMarketingAberto(true);
+  };
+
+  const handleFecharMarketing = () => {
+    setMarketingAberto(false);
+    setMarketingProdutoId(null);
+    setMarketingProdutoNome('');
   };
 
   const handleSalvar = async (produto) => {
@@ -302,6 +320,16 @@ export default function AdminPanel({ onLogout }) {
           categorias={categoriasDisponiveis}
           onSave={handleSalvar}
           onClose={handleFecharForm}
+          onOpenMarketing={handleAbrirMarketing}
+        />
+      )}
+
+      {marketingAberto && (
+        <MarketingForm
+          produtoId={marketingProdutoId}
+          produtoNome={marketingProdutoNome}
+          onClose={handleFecharMarketing}
+          onToast={setToast}
         />
       )}
     </>
