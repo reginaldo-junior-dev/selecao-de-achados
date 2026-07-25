@@ -14,3 +14,7 @@ export async function atualizarTextoMarketing(id, dto) {
   const response = await api.put(`/api/admin/marketing/${id}`, dto);
   return response.data;
 }
+
+export async function deletarTextoMarketing(id) {
+  await api.delete(`/api/admin/marketing/${id}`);
+}
