@@ -1,4 +1,4 @@
-import { useState, useMemo, useEffect, useCallback } from 'react';
+import { useState, useMemo, useEffect, useCallback, useRef } from 'react';
 import { Plus, Search } from 'lucide-react';
 import AdminHeader from './AdminHeader';
 import AdminProductGrid from './AdminProductGrid';
@@ -25,6 +25,8 @@ export default function AdminPanel({ onLogout }) {
   const [totalProdutos, setTotalProdutos] = useState(0);
   const [totalPaginas, setTotalPaginas] = useState(0);
   const [busca, setBusca] = useState('');
+  const [buscaInput, setBuscaInput] = useState('');
+  const buscaTimeoutRef = useRef(null);
   const [categoriaAtiva, setCategoriaAtiva] = useState('todos');
   const [paginaAtual, setPaginaAtual] = useState(1);
   const [formAberto, setFormAberto] = useState(false);
@@ -59,6 +61,12 @@ export default function AdminPanel({ onLogout }) {
       }
     }
     carregarCategorias();
+  }, []);
+
+  useEffect(() => {
+    return () => {
+      if (buscaTimeoutRef.current) clearTimeout(buscaTimeoutRef.current);
+    };
   }, []);
 
   useEffect(() => {
@@ -215,8 +223,12 @@ export default function AdminPanel({ onLogout }) {
   };
 
   const handleBuscaChange = (value) => {
-    setBusca(value);
-    setPaginaAtual(1);
+    setBuscaInput(value);
+    if (buscaTimeoutRef.current) clearTimeout(buscaTimeoutRef.current);
+    buscaTimeoutRef.current = setTimeout(() => {
+      setBusca(value);
+      setPaginaAtual(1);
+    }, 300);
   };
 
   const handlePageChange = (page) => {
@@ -266,7 +278,7 @@ export default function AdminPanel({ onLogout }) {
               <input
                 type="text"
                 placeholder="Buscar produtos..."
-                value={busca}
+                value={buscaInput}
                 onChange={(e) => handleBuscaChange(e.target.value)}
                 aria-label="Buscar produtos"
               />

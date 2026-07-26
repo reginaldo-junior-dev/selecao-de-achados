@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Search, Menu, X } from 'lucide-react';
 import styles from './Header.module.css';
 
@@ -7,6 +7,7 @@ export default function Header({ onSearch }) {
   const [searchOpen, setSearchOpen] = useState(false);
   const [menuOpen, setMenuOpen] = useState(false);
   const [query, setQuery] = useState('');
+  const debounceRef = useRef(null);
 
   useEffect(() => {
     const handleScroll = () => setCompact(window.scrollY > 60);
@@ -14,10 +15,19 @@ export default function Header({ onSearch }) {
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    return () => {
+      if (debounceRef.current) clearTimeout(debounceRef.current);
+    };
+  }, []);
+
   const handleChange = (e) => {
     const value = e.target.value;
     setQuery(value);
-    onSearch?.(value);
+    if (debounceRef.current) clearTimeout(debounceRef.current);
+    debounceRef.current = setTimeout(() => {
+      onSearch?.(value);
+    }, 300);
   };
 
   return (
