@@ -1,5 +1,5 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
-import { X, Trash2, ImageIcon, Loader2 } from 'lucide-react';
+import { X, Trash2, ImageIcon, Loader2, Megaphone } from 'lucide-react';
 import { uploadImagem } from '../services/uploadService';
 import { getImageUrl } from '../utils/getImageUrl';
 import styles from './ProductForm.module.css';
@@ -7,7 +7,7 @@ import styles from './ProductForm.module.css';
 const TIPOS_PERMITIDOS = ['image/jpeg', 'image/png', 'image/webp', 'image/gif'];
 const TAMANHO_MAXIMO_MB = 2;
 
-export default function ProductForm({ produto, categorias, onSave, onClose }) {
+export default function ProductForm({ produto, categorias, onSave, onClose, onOpenMarketing }) {
   const valoresIniciais = useMemo(
     () => ({
       nome: '',
@@ -315,6 +315,24 @@ export default function ProductForm({ produto, categorias, onSave, onClose }) {
                 produto ? 'Salvar alterações' : 'Cadastrar produto'
               )}
             </button>
+          </div>
+
+          <div className={styles.marketingWrap}>
+            <button
+              type="button"
+              className={styles.marketingBtn}
+              disabled={!produto}
+              title={!produto ? 'Salve o produto primeiro para cadastrar os textos de marketing.' : ''}
+              onClick={() => onOpenMarketing?.(produto)}
+            >
+              <Megaphone size={16} />
+              Marketing
+            </button>
+            {!produto && (
+              <span className={styles.marketingHint}>
+                Salve o produto primeiro para cadastrar os textos de marketing.
+              </span>
+            )}
           </div>
         </form>
       </div>
