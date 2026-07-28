@@ -1,3 +1,4 @@
+import CategoryIcon from './CategoryIcon';
 import styles from './CategoryFilter.module.css';
 
 export default function CategoryFilter({ categorias, ativa, onChange }) {
@@ -11,7 +12,7 @@ export default function CategoryFilter({ categorias, ativa, onChange }) {
           className={`${styles.chip} ${ativa === cat.slug ? styles.ativo : ''}`}
           onClick={() => onChange(cat.slug)}
         >
-          {cat.icone && <span className={styles.icon}>{cat.icone}</span>}
+          <span className={styles.icon}><CategoryIcon slug={cat.slug} /></span>
           <span className={styles.label}>{cat.nome}</span>
         </button>
       ))}

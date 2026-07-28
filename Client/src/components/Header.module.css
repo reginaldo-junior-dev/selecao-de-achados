@@ -156,6 +156,21 @@
 }
 
 @media (max-width: 640px) {
+  .logo {
+    font-size: 1rem;
+    white-space: nowrap;
+    flex-shrink: 0;
+  }
+
+  .logoIcon {
+    width: 40px;
+    height: 40px;
+  }
+
+  .inner {
+    gap: 0.5rem;
+  }
+
   .searchBar {
     position: absolute;
     top: 100%;

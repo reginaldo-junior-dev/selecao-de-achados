@@ -121,3 +121,37 @@
 .cta:hover {
   background: #ffbb33;
 }
+
+@media (max-width: 480px) {
+  .imageWrapper {
+    aspect-ratio: 3 / 2;
+  }
+
+  .body {
+    padding: 0.75rem;
+  }
+
+  .nome {
+    font-size: 0.9rem;
+  }
+
+  .chamada {
+    font-size: 0.78rem;
+    margin-bottom: 0.6rem;
+  }
+
+  .cta {
+    font-size: 0.78rem;
+    padding: 0.45rem 0.85rem;
+  }
+
+  .badge {
+    top: 0.5rem;
+    left: 0.5rem;
+    font-size: 0.6rem;
+  }
+
+  .destaque {
+    right: 0.5rem;
+  }
+}

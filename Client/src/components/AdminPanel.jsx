@@ -4,6 +4,7 @@ import AdminHeader from './AdminHeader';
 import AdminProductGrid from './AdminProductGrid';
 import ProductForm from './ProductForm';
 import MarketingForm from './MarketingForm';
+import CategoryIcon from './CategoryIcon';
 import Pagination from './Pagination';
 import Footer from './Footer';
 import Toast from './Toast';
@@ -289,7 +290,8 @@ export default function AdminPanel({ onLogout }) {
                 className={`${styles.chip} ${categoriaAtiva === 'todos' ? styles.active : ''}`}
                 onClick={() => handleCategoriaChange('todos')}
               >
-                Todos
+                <CategoryIcon slug="todos" />
+                <span>Todos</span>
               </button>
               {categoriasDisponiveis.map((cat) => (
                 <button
@@ -297,7 +299,7 @@ export default function AdminPanel({ onLogout }) {
                   className={`${styles.chip} ${categoriaAtiva === cat.slug ? styles.active : ''}`}
                   onClick={() => handleCategoriaChange(cat.slug)}
                 >
-                  <span>{cat.icone}</span>
+                  <CategoryIcon slug={cat.slug} />
                   <span>{cat.nome}</span>
                 </button>
               ))}

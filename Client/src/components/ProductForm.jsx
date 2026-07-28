@@ -1,5 +1,6 @@
 import { useState, useEffect, useRef, useMemo } from 'react';
 import { X, Trash2, ImageIcon, Loader2, Megaphone } from 'lucide-react';
+import CategoryIcon from './CategoryIcon';
 import { uploadImagem } from '../services/uploadService';
 import { getImageUrl } from '../utils/getImageUrl';
 import styles from './ProductForm.module.css';
@@ -185,7 +186,7 @@ export default function ProductForm({ produto, categorias, onSave, onClose, onOp
                     checked={form.categorias.includes(cat.slug)}
                     onChange={() => handleCategoriaToggle(cat.slug)}
                   />
-                  <span>{cat.icone}</span>
+                  <CategoryIcon slug={cat.slug} />
                   <span>{cat.nome}</span>
                 </label>
               ))}

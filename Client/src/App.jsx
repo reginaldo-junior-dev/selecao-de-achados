@@ -25,7 +25,7 @@ function PaginaInicial() {
   const [erro, setErro] = useState('');
 
   const categoriaTodos = useMemo(
-    () => ({ slug: 'todos', nome: 'Todos', icone: '' }),
+    () => ({ slug: 'todos', nome: 'Todos' }),
     []
   );
 
