@@ -15,6 +15,11 @@ export async function atualizarTextoMarketing(id, dto) {
   return response.data;
 }
 
+export async function alternarPublicacao(id) {
+  const response = await api.put(`/api/admin/marketing/${id}/publicar`);
+  return response.data;
+}
+
 export async function deletarTextoMarketing(id) {
   await api.delete(`/api/admin/marketing/${id}`);
 }
