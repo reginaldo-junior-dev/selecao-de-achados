@@ -11,6 +11,7 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Service
@@ -66,6 +67,18 @@ public class MarketingTextoService {
     }
 
     @Transactional
+    public MarketingTextoResponseDTO alternarPublicacao(Integer id) {
+        MarketingTexto texto = marketingTextoRepository.findById(id)
+                .orElseThrow(() -> new EntityNotFoundException("Texto de marketing não encontrado: " + id));
+
+        boolean novoStatus = !texto.getPublicado();
+        texto.setPublicado(novoStatus);
+        texto.setDataPublicacao(novoStatus ? LocalDateTime.now() : null);
+
+        return toResponseDTO(marketingTextoRepository.save(texto));
+    }
+
+    @Transactional
     public void deletar(Integer id) {
         if (!marketingTextoRepository.existsById(id)) {
             throw new EntityNotFoundException("Texto de marketing não encontrado: " + id);
@@ -78,7 +91,9 @@ public class MarketingTextoService {
                 texto.getId(),
                 texto.getProduto().getId(),
                 texto.getRedeSocial(),
-                texto.getConteudo()
+                texto.getConteudo(),
+                texto.getPublicado(),
+                texto.getDataPublicacao()
         );
     }
 }

@@ -34,6 +34,11 @@ public class AdminMarketingController {
         return ResponseEntity.ok(marketingTextoService.atualizar(id, dto));
     }
 
+    @PutMapping("/{id}/publicar")
+    public ResponseEntity<MarketingTextoResponseDTO> alternarPublicacao(@PathVariable Integer id) {
+        return ResponseEntity.ok(marketingTextoService.alternarPublicacao(id));
+    }
+
     @DeleteMapping("/{id}")
     public ResponseEntity<Void> deletar(@PathVariable Integer id) {
         marketingTextoService.deletar(id);

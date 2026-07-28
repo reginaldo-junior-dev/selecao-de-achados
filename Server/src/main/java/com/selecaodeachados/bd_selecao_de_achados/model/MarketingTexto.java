@@ -33,6 +33,13 @@ public class MarketingTexto {
     @Column(nullable = false, columnDefinition = "TEXT")
     private String conteudo;
 
+    @Column(nullable = false)
+    @Builder.Default
+    private Boolean publicado = false;
+
+    @Column(name = "data_publicacao")
+    private LocalDateTime dataPublicacao;
+
     @CreationTimestamp
     @Column(name = "criado_em", nullable = false, updatable = false)
     private LocalDateTime criadoEm;

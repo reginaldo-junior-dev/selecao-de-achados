@@ -1,10 +1,11 @@
 import { useState, useEffect, useCallback } from 'react';
-import { X, Loader2, Trash2 } from 'lucide-react';
+import { X, Loader2, Trash2, CheckCircle, Circle } from 'lucide-react';
 import {
   listarTextosMarketing,
   criarTextoMarketing,
   atualizarTextoMarketing,
   deletarTextoMarketing,
+  alternarPublicacao,
 } from '../services/marketingService';
 import styles from './MarketingForm.module.css';
 
@@ -13,6 +14,7 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
   const [descricao, setDescricao] = useState('');
   const [carregando, setCarregando] = useState(true);
   const [salvando, setSalvando] = useState(false);
+  const [alternando, setAlternando] = useState(null);
   const [textosExistentes, setTextosExistentes] = useState({});
 
   const carregarTextos = useCallback(async () => {
@@ -36,6 +38,23 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
   useEffect(() => {
     carregarTextos();
   }, [carregarTextos]);
+
+  const handleAlternarPublicacao = async (redeSocial) => {
+    const existente = textosExistentes[redeSocial];
+    if (!existente) return;
+
+    setAlternando(redeSocial);
+    try {
+      const atualizado = await alternarPublicacao(existente.id);
+      setTextosExistentes({ ...textosExistentes, [redeSocial]: atualizado });
+      const status = atualizado.publicado ? 'publicado' : 'desmarcado';
+      onToast({ mensagem: `Status alterado para "${status}".`, tipo: 'success' });
+    } catch {
+      onToast({ mensagem: 'Erro ao alterar status de publicação.', tipo: 'error' });
+    } finally {
+      setAlternando(null);
+    }
+  };
 
   const handleLimpar = async (redeSocial) => {
     const existente = textosExistentes[redeSocial];
@@ -133,17 +152,37 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
                 <label htmlFor="legenda">
                   <span className={styles.platform}>Instagram</span> Legenda
                 </label>
-                {textosExistentes.INSTAGRAM && (
-                  <button
-                    type="button"
-                    className={styles.clearBtn}
-                    onClick={() => handleLimpar('INSTAGRAM')}
-                    title="Remover texto do Instagram"
-                  >
-                    <Trash2 size={14} />
-                    Limpar
-                  </button>
-                )}
+                <div className={styles.fieldActions}>
+                  {textosExistentes.INSTAGRAM && (
+                    <>
+                      <button
+                        type="button"
+                        className={`${styles.publishBtn} ${textosExistentes.INSTAGRAM.publicado ? styles.published : styles.unpublished}`}
+                        onClick={() => handleAlternarPublicacao('INSTAGRAM')}
+                        disabled={alternando === 'INSTAGRAM'}
+                        title={textosExistentes.INSTAGRAM.publicado ? 'Desmarcar como publicado' : 'Marcar como publicado'}
+                      >
+                        {alternando === 'INSTAGRAM' ? (
+                          <Loader2 size={14} className={styles.spinner} />
+                        ) : textosExistentes.INSTAGRAM.publicado ? (
+                          <CheckCircle size={14} />
+                        ) : (
+                          <Circle size={14} />
+                        )}
+                        {textosExistentes.INSTAGRAM.publicado ? 'Publicado' : 'Publicar'}
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.clearBtn}
+                        onClick={() => handleLimpar('INSTAGRAM')}
+                        title="Remover texto do Instagram"
+                      >
+                        <Trash2 size={14} />
+                        Limpar
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
               <textarea
                 id="legenda"
@@ -159,17 +198,37 @@ export default function MarketingForm({ produtoId, produtoNome, onClose, onToast
                 <label htmlFor="descricao">
                   <span className={styles.platform}>YouTube</span> Descrição
                 </label>
-                {textosExistentes.YOUTUBE && (
-                  <button
-                    type="button"
-                    className={styles.clearBtn}
-                    onClick={() => handleLimpar('YOUTUBE')}
-                    title="Remover texto do YouTube"
-                  >
-                    <Trash2 size={14} />
-                    Limpar
-                  </button>
-                )}
+                <div className={styles.fieldActions}>
+                  {textosExistentes.YOUTUBE && (
+                    <>
+                      <button
+                        type="button"
+                        className={`${styles.publishBtn} ${textosExistentes.YOUTUBE.publicado ? styles.published : styles.unpublished}`}
+                        onClick={() => handleAlternarPublicacao('YOUTUBE')}
+                        disabled={alternando === 'YOUTUBE'}
+                        title={textosExistentes.YOUTUBE.publicado ? 'Desmarcar como publicado' : 'Marcar como publicado'}
+                      >
+                        {alternando === 'YOUTUBE' ? (
+                          <Loader2 size={14} className={styles.spinner} />
+                        ) : textosExistentes.YOUTUBE.publicado ? (
+                          <CheckCircle size={14} />
+                        ) : (
+                          <Circle size={14} />
+                        )}
+                        {textosExistentes.YOUTUBE.publicado ? 'Publicado' : 'Publicar'}
+                      </button>
+                      <button
+                        type="button"
+                        className={styles.clearBtn}
+                        onClick={() => handleLimpar('YOUTUBE')}
+                        title="Remover texto do YouTube"
+                      >
+                        <Trash2 size={14} />
+                        Limpar
+                      </button>
+                    </>
+                  )}
+                </div>
               </div>
               <textarea
                 id="descricao"
