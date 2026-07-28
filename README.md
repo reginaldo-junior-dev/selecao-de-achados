@@ -34,6 +34,8 @@ O projeto surgiu da necessidade de ter controle sobre os produtos divulgados, ev
 - Curadoria manual de produtos da internet
 - Categorias organizadas para facilitar a navegação
 - Painel administrativo para gerenciar produtos e categorias
+- **Textos de marketing** por rede social (Instagram e YouTube) no painel admin
+- **Controle de publicação** com data para cada texto de marketing
 - Upload de imagens com Supabase Storage
 - Busca e filtros para encontrar produtos
 - Interface responsiva e moderna
