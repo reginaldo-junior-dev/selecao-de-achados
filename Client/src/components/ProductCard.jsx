@@ -9,6 +9,14 @@ export default function ProductCard({ produto }) {
   const badgeClass = produto.badge === 'Em oferta' ? styles.success : styles.amber;
 
   const handleClick = async () => {
+    const origemNome = produto.origem === 'shopee' ? 'Shopee' : 'Mercado Livre';
+
+    window.gtag('event', 'product_click', {
+      origin: produto.origem,
+      product_name: produto.nome,
+      product_id: produto.id,
+    });
+
     try {
       await registrarClique(produto.id);
     } catch {
